@@ -62,7 +62,7 @@ jobs:
 
       # Step: Maven Clean & Package
       - name: Package with Maven
-        run: mvn -B clean package -f cherry-parent/pom.xml
+        run: mvn -B clean package -f avocado-parent/pom.xml
 
       # Step - Maven Verify for Sonar
       - name: Build & Analyze with SonarCloud
