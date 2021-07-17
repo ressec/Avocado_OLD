@@ -45,7 +45,7 @@ public abstract class BaseUnitTest
     /**
      * Unit test temporary folder for the run.
      */
-    protected static String testFolder = System.getProperty("java.io.tmpdir") + UUID.randomUUID().toString();
+    protected static String testFolder = System.getProperty("java.io.tmpdir");
 
     /**
      * System specific file separator character.
@@ -61,6 +61,31 @@ public abstract class BaseUnitTest
      * Fake Data generator.
      */
     protected final Faker faker = new Faker();
+
+    /**
+     * Creates a new base unit test instance.
+     */
+    protected BaseUnitTest()
+    {
+        setTestFolder();
+    }
+
+    /**
+     * Sets the test folder.
+     */
+    private static void setTestFolder()
+    {
+        if (!testFolder.endsWith("/"))
+        {
+            testFolder += File.separator + UUID.randomUUID().toString();
+        }
+        else
+        {
+            testFolder += UUID.randomUUID().toString();
+        }
+
+        FileHelper.createFileWithDirs(new File(testFolder));
+    }
 
     /**
      * Checks if the given file name exist in the test folder?

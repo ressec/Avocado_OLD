@@ -63,7 +63,7 @@ class TestJsonHelper extends BaseUnitTest
         {
             // Create a temporary file to serialize the bean in json format.
             //final File file = Files.createFile(TEST_FOLDER, "so.json");
-            File file = new File(testFolder + fileSeparator + "so.json");
+            File file = new File(testFolder + fileSeparator + UUID.randomUUID().toString() + ".json");
             SimpleBean object = generateBean();
             JsonHelper.serialize(file, object);
         }
@@ -85,8 +85,8 @@ class TestJsonHelper extends BaseUnitTest
         try
         {
             // Create a temporary file to serialize the bean in json format.
-//            final File file = temporaryFolder.newFile("so.json");
-            File file = new File(testFolder + fileSeparator + "so.json");
+            // final File file = temporaryFolder.newFile("so.json");
+            File file = new File(testFolder + fileSeparator + UUID.randomUUID().toString() + ".json");
 
             origin = generateBean();
 
@@ -113,7 +113,7 @@ class TestJsonHelper extends BaseUnitTest
         {
             // Create a temporary file to serialize the bean in json format.
             //final File file = temporaryFolder.newFile("so.json");
-            File file = new File(testFolder + fileSeparator + "so.json");
+            File file = new File(testFolder + fileSeparator + UUID.randomUUID().toString() + ".json");
 
             int count = 1 + getRandomNumber(99);
 
@@ -144,7 +144,7 @@ class TestJsonHelper extends BaseUnitTest
         {
             // Create a temporary file to serialize the bean in json format.
 //            final File file = temporaryFolder.newFile("so.json");
-            File file = new File(testFolder + fileSeparator + "so.json");
+            File file = new File(testFolder + fileSeparator + UUID.randomUUID().toString() + ".json");
 
             int count = 1 + getRandomNumber(99);
             for (int i = 0; i < count; i++)
@@ -176,7 +176,7 @@ class TestJsonHelper extends BaseUnitTest
         {
             // Create a temporary file to serialize the bean in json format.
 //            final File file = temporaryFolder.newFile("so.json");
-            File file = new File(testFolder + fileSeparator + "so.json");
+            File file = new File(testFolder + fileSeparator + UUID.randomUUID().toString() + ".json");
 
             int count = 1 + getRandomNumber(99);
             for (int i = 0; i < count; i++)
@@ -206,7 +206,7 @@ class TestJsonHelper extends BaseUnitTest
         {
             // Create a temporary file to serialize the bean in json format.
             //final File file = temporaryFolder.newFile("so.json");
-            File file = new File(testFolder + fileSeparator + "so.json");
+            File file = new File(testFolder + fileSeparator + UUID.randomUUID().toString() + ".json");
 
             int count = 1 + getRandomNumber(99);
             for (int i = 0; i < count; i++)
@@ -238,7 +238,7 @@ class TestJsonHelper extends BaseUnitTest
         {
             // Create a temporary file to serialize the bean in json format.
             //final File file = temporaryFolder.newFile("so.json");
-            File file = new File(testFolder + fileSeparator + "so.json");
+            File file = new File(testFolder + fileSeparator + UUID.randomUUID().toString() + ".json");
 
             int count = 1 + getRandomNumber(99);
 
@@ -270,7 +270,7 @@ class TestJsonHelper extends BaseUnitTest
         {
             // Create a temporary file to serialize the bean in json format.
             //final File file = temporaryFolder.newFile("so.json");
-            File file = new File(testFolder + fileSeparator + "so.json");
+            File file = new File(testFolder + fileSeparator + UUID.randomUUID().toString() + ".json");
 
             int count = 1 + getRandomNumber(99);
             for (int i = 0; i < count; i++)

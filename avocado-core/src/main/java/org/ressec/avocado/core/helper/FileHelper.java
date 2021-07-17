@@ -56,12 +56,23 @@ public class FileHelper
     public static Path createFileWithDirs(String filePath)
     {
         var directory = filePath.substring(0, filePath.lastIndexOf(File.separator));
-        var filename = filePath.substring(filePath.lastIndexOf(File.separator) + 1, filePath.length());
+        var filename = filePath.substring(filePath.lastIndexOf(File.separator) + 1);
 
-        var dir = new File(directory);
-        if (!dir.exists())
+        if (!filename.contains("."))
         {
-            dir.mkdirs();
+            var dir = new File(filePath);
+            if (!dir.exists())
+            {
+                dir.mkdirs();
+            }
+        }
+        else
+        {
+            var dir = new File(directory);
+            if (!dir.exists())
+            {
+                dir.mkdirs();
+            }
         }
 
         return Paths.get(directory + File.separatorChar + filename);
