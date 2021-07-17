@@ -32,6 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     #if: github.base.ref == 'refs/heads/main' # Only when target branch is: 'main'.
     if: github.event.pull_request.base.ref == 'main'
+
     steps:
       - uses: actions/checkout@v2
         with:
