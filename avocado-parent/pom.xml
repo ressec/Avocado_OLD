@@ -290,7 +290,6 @@
                     <docencoding>${project.build.sourceEncoding}</docencoding>
                     <charset>${project.build.sourceEncoding}</charset>
                     <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
-                    <!-- <source>8</source>-->
                 </configuration>
                 <executions>
                     <execution>
