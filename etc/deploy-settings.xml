@@ -7,7 +7,6 @@
     <servers>
 
         <!-- Amazon AWS -->
-
         <server>
             <id>aws-public</id>
             <username>${CI_DEPLOY_AWS_PUBLIC_USERNAME}</username>
@@ -27,7 +26,6 @@
         </server>
 
         <!-- Gitlab -->
-
         <server>
             <id>gitlab-public</id>
             <username>${CI_DEPLOY_GITLAB_PUBLIC_USERNAME}</username>
@@ -38,6 +36,13 @@
             <id>gitlab-private</id>
             <username>${CI_DEPLOY_GITLAB_PRIVATE_USERNAME}</username>
             <password>${CI_DEPLOY_GITLAB_PRIVATE_PASSWORD}</password>
+        </server>
+
+        <!-- Github -->
+        <server>
+            <id>github</id>
+            <username>${CI_DEPLOY_GITHUB_USERNAME}</username>
+            <password>${CI_DEPLOY_GITHUB_PASSWORD}</password>
         </server>
 
     </servers>
