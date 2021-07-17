@@ -13,6 +13,7 @@ package org.ressec.avocado.core.junit;
 
 import com.github.javafaker.Faker;
 import lombok.NonNull;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.AfterAll;
@@ -42,6 +43,7 @@ import java.util.UUID;
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
+@Log4j2
 public abstract class BaseUnitTest
 {
     @TempDir
@@ -152,11 +154,11 @@ public abstract class BaseUnitTest
         try
         {
             Files.createDirectories(Paths.get(testFolder));
-            System.out.printf("Test folder set to: [%s]%n", testFolder); // TODO Replace with a logger!
+            LOGGER.info(String.format("Test folder set to: [%s]%n", testFolder));
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
     }
 
@@ -169,11 +171,11 @@ public abstract class BaseUnitTest
         try
         {
             FileUtils.deleteDirectory(new File(testFolder));
-            System.out.printf("Test folder [%s] deleted%n", testFolder); // TODO Replace with a logger!
+            LOGGER.info(String.format("Test folder [%s] deleted%n", testFolder));
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
     }
 
