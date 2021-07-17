@@ -53,6 +53,11 @@ class TestJsonHelper extends BaseUnitTest
                 .build();
     }
 
+    private File getFile()
+    {
+        return new File(sharedTempDirectory + UUID.randomUUID().toString() + ".json");
+    }
+
     /**
      * Test the serialization of an object instance in a {@code json} file.
      */
@@ -63,9 +68,8 @@ class TestJsonHelper extends BaseUnitTest
         {
             // Create a temporary file to serialize the bean in json format.
             //final File file = Files.createFile(TEST_FOLDER, "so.json");
-            File file = new File(testFolder + fileSeparator + UUID.randomUUID().toString() + ".json");
             SimpleBean object = generateBean();
-            JsonHelper.serialize(file, object);
+            JsonHelper.serialize(getFile(), object);
         }
         catch (IOException e)
         {
@@ -86,8 +90,7 @@ class TestJsonHelper extends BaseUnitTest
         {
             // Create a temporary file to serialize the bean in json format.
             // final File file = temporaryFolder.newFile("so.json");
-            File file = new File(testFolder + fileSeparator + UUID.randomUUID().toString() + ".json");
-
+            File file = getFile();
             origin = generateBean();
 
             JsonHelper.serialize(file, origin);
@@ -113,7 +116,7 @@ class TestJsonHelper extends BaseUnitTest
         {
             // Create a temporary file to serialize the bean in json format.
             //final File file = temporaryFolder.newFile("so.json");
-            File file = new File(testFolder + fileSeparator + UUID.randomUUID().toString() + ".json");
+            File file = getFile();
 
             int count = 1 + getRandomNumber(99);
 
@@ -143,8 +146,8 @@ class TestJsonHelper extends BaseUnitTest
         try
         {
             // Create a temporary file to serialize the bean in json format.
-//            final File file = temporaryFolder.newFile("so.json");
-            File file = new File(testFolder + fileSeparator + UUID.randomUUID().toString() + ".json");
+            // final File file = temporaryFolder.newFile("so.json");
+            File file = getFile();
 
             int count = 1 + getRandomNumber(99);
             for (int i = 0; i < count; i++)
@@ -175,8 +178,8 @@ class TestJsonHelper extends BaseUnitTest
         try
         {
             // Create a temporary file to serialize the bean in json format.
-//            final File file = temporaryFolder.newFile("so.json");
-            File file = new File(testFolder + fileSeparator + UUID.randomUUID().toString() + ".json");
+            // final File file = temporaryFolder.newFile("so.json");
+            File file = getFile();
 
             int count = 1 + getRandomNumber(99);
             for (int i = 0; i < count; i++)
@@ -206,7 +209,7 @@ class TestJsonHelper extends BaseUnitTest
         {
             // Create a temporary file to serialize the bean in json format.
             //final File file = temporaryFolder.newFile("so.json");
-            File file = new File(testFolder + fileSeparator + UUID.randomUUID().toString() + ".json");
+            File file = getFile();
 
             int count = 1 + getRandomNumber(99);
             for (int i = 0; i < count; i++)
@@ -238,7 +241,7 @@ class TestJsonHelper extends BaseUnitTest
         {
             // Create a temporary file to serialize the bean in json format.
             //final File file = temporaryFolder.newFile("so.json");
-            File file = new File(testFolder + fileSeparator + UUID.randomUUID().toString() + ".json");
+            File file = getFile();
 
             int count = 1 + getRandomNumber(99);
 
@@ -270,7 +273,7 @@ class TestJsonHelper extends BaseUnitTest
         {
             // Create a temporary file to serialize the bean in json format.
             //final File file = temporaryFolder.newFile("so.json");
-            File file = new File(testFolder + fileSeparator + UUID.randomUUID().toString() + ".json");
+            File file = getFile();
 
             int count = 1 + getRandomNumber(99);
             for (int i = 0; i < count; i++)

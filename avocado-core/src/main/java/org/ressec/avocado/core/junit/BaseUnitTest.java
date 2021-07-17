@@ -19,12 +19,14 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.io.TempDir;
 import org.ressec.avocado.core.exception.checked.FileException;
 import org.ressec.avocado.core.helper.FileHelper;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Random;
 import java.util.UUID;
@@ -42,6 +44,9 @@ import java.util.UUID;
  */
 public abstract class BaseUnitTest
 {
+    @TempDir
+    protected static Path sharedTempDirectory;
+
     /**
      * Unit test temporary folder for the run.
      */
