@@ -17,7 +17,8 @@ name: dev.maven.jdk11.ubuntu
 
 on:
   push:
-    branches: [dev]
+    branches:
+      - dev
   pull_request:
     branches:
       - dev
@@ -31,6 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     #if: github.base.ref == 'refs/heads/dev' # Only when target branch is: 'dev'.
     if: github.event.pull_request.base.ref == 'dev'
+
     steps:
       - uses: actions/checkout@v2
         with:
