@@ -18,7 +18,9 @@
         <url>https://github.com/ressec/avocado</url>
         <connection>scm:git:ssh://git@github.com/ressec/avocado.git</connection>
         <!--suppress UnresolvedMavenProperty -->
-        <developerConnection>scm:git:[push=]ssh://git@github.com/ressec/avocado.git[fetch=]ssh://git@github.com/ressec/avocado.git</developerConnection>
+        <developerConnection>
+            scm:git:[push=]ssh://git@github.com/ressec/avocado.git[fetch=]ssh://git@github.com/ressec/avocado.git
+        </developerConnection>
         <tag>HEAD</tag>
     </scm>
 
@@ -52,19 +54,24 @@
         <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
         <sonar.organization>ressec-github</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <!-- properties used for running local analysis -->
+        <!--suppress UnresolvedMavenProperty -->
+        <sonar.login>${env.SONAR_TOKEN_RESSEC}</sonar.login>
+        <sonar.java.binaries>${project.build.directory}</sonar.java.binaries>
+        <sonar.projectName>Avocado</sonar.projectName>
 
         <!-- Plugin version properties -->
         <version.maven.plugin.compiler>3.8.1</version.maven.plugin.compiler>
-        <version.maven.plugin.jar>3.1.2</version.maven.plugin.jar>
+        <version.maven.plugin.jar>3.2.0</version.maven.plugin.jar>
         <version.maven.plugin.javadoc>3.1.1</version.maven.plugin.javadoc>
         <version.maven.plugin.source>3.1.0</version.maven.plugin.source>
         <version.maven.plugin.scm>1.11.2</version.maven.plugin.scm>
         <version.maven.plugin.release>2.5.3</version.maven.plugin.release>
-        <version.maven.plugin.jacoco>0.8.4</version.maven.plugin.jacoco>
         <version.maven.plugin.site>3.7.1</version.maven.plugin.site>
-        <version.maven.plugin.sonar>3.6.0.1398</version.maven.plugin.sonar>
-        <version.maven.plugin.project.info.reports>3.0.0</version.maven.plugin.project.info.reports>
+        <version.maven.plugin.info>3.0.0</version.maven.plugin.info>
         <version.maven.plugin.surefire>3.0.0-M5</version.maven.plugin.surefire>
+        <version.maven.plugin.jacoco>0.8.7</version.maven.plugin.jacoco>
+        <version.maven.plugin.sonar.scanner>3.9.0.2155</version.maven.plugin.sonar.scanner>
 
         <!-- Dependencies version properties -->
         <version.lombok>1.18.18</version.lombok>
@@ -92,7 +99,8 @@
     <distributionManagement>
 
         <repository>
-            <id>github</id> <!-- This repository id should match a server entry in the servers section of the settings.xml file. -->
+            <id>github
+            </id> <!-- This repository id should match a server entry in the servers section of the settings.xml file. -->
             <name>GitHub ResseC - Apache Maven Packages</name>
             <url>https://maven.pkg.github.com/ressec/avocado</url>
         </repository>
@@ -120,6 +128,7 @@
         </repository>
 
         <!-- Gitlab Maven repository -->
+        <!-- . required for the modified jrand dependency-->
         <repository>
             <id>gitlab-public</id>
             <url>https://gitlab.com/api/v4/projects/22245088/packages/maven</url>
@@ -184,6 +193,13 @@
                 <artifactId>junit-jupiter</artifactId>
                 <version>${version.junit}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${version.junit}</version>
+                <scope>compile</scope>
             </dependency>
 
             <!-- JavaFaker: https://github.com/DiUS/java-faker -->
@@ -260,12 +276,94 @@
     </dependencyManagement>
 
     <build>
+
+        <pluginManagement>
+
+            <plugins>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${version.maven.plugin.compiler}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${version.maven.plugin.javadoc}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${version.maven.plugin.source}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${version.maven.plugin.jar}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${version.maven.plugin.jacoco}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-scm-plugin</artifactId>
+                    <version>${version.maven.plugin.scm}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${version.maven.plugin.release}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${version.maven.plugin.site}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>${version.maven.plugin.info}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${version.maven.plugin.sonar.scanner}</version>
+                    <executions>
+                        <execution>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sonar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${version.maven.plugin.surefire}</version>
+                </plugin>
+
+            </plugins>
+
+        </pluginManagement>
+
         <plugins>
             <!-- JAR: Compile the sources. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.maven.plugin.compiler}</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
@@ -276,7 +374,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>${version.maven.plugin.jar}</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -291,7 +388,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${version.maven.plugin.javadoc}</version>
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <docencoding>${project.build.sourceEncoding}</docencoding>
@@ -312,7 +408,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>${version.maven.plugin.source}</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -327,14 +422,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-scm-plugin</artifactId>
-                <version>${version.maven.plugin.scm}</version>
             </plugin>
 
             <!-- RELEASE: Used to release a project with Maven. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>${version.maven.plugin.release}</version>
                 <configuration>
                     <tagNameFormat>@{project.version}</tagNameFormat>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
@@ -346,37 +439,62 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${version.maven.plugin.jacoco}</version>
             </plugin>
 
             <!-- SITE: The Site Plugin is used to generate a site for the project. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>${version.maven.plugin.site}</version>
             </plugin>
 
             <!-- INFO REPORTS: The Maven Project Info Reports plugin is used to generate reports information about the project. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>${version.maven.plugin.project.info.reports}</version>
             </plugin>
 
             <!-- SONAR: The Maven Project Sonar plugin is used to execute static analysis on the code. -->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
-                <version>${version.maven.plugin.sonar}</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${version.maven.plugin.surefire}</version>
             </plugin>
 
         </plugins>
     </build>
+
+    <profiles>
+
+        <profile>
+            <id>coverage</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>prepare-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
 
 </project>
