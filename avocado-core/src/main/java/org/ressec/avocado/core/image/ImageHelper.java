@@ -24,6 +24,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Helper class containing services for image manipulations through the {@code ImgScalr} library.
@@ -40,52 +41,83 @@ public final class ImageHelper
 
     /**
      * Saves an icon image.
-     * @param sourceIconPath Image source path.
+     * @param iconName Path and file name of the source icon.
+     * @throws ImageException Thrown in case an error occurred while manipulating an image.
+     * @return Path and file name of the saved image.
+     */
+    public static String saveIcon(final @NonNull String iconName) throws ImageException
+    {
+        return saveIcon(
+                iconName,
+                ImageScaleType.IMAGE_SCALE_DEFAULT,
+                ImageFileType.PNG,
+                System.getProperty("java.temp.dir"),
+                UUID.randomUUID().toString());
+    }
+
+    /**
+     * Saves an icon image.
+     * @param iconName Path and file name of the source icon.
      * @param outputType Image output type.
      * @param targetPath Destination target path (can be relative).
      * @param targetName Destination target name.
      * @throws ImageException Thrown in case an error occurred while manipulating an image.
      * @return Full pathname (containing the file extension) of the saved image file.
      */
-    public static String saveIcon(final @NonNull String sourceIconPath, final ImageFileType outputType, final @NonNull String targetPath, final @NonNull String targetName) throws ImageException
+    public static String saveIcon(final @NonNull String iconName, final ImageFileType outputType, final @NonNull String targetPath, final @NonNull String targetName) throws ImageException
     {
-        return saveIcon(sourceIconPath, ImageScaleType.IMAGE_SCALE_DEFAULT, outputType, targetPath, targetName);
+        return saveIcon(
+                iconName,
+                ImageScaleType.IMAGE_SCALE_DEFAULT,
+                outputType,
+                targetPath,
+                targetName);
     }
 
     /**
      * Saves an icon image.
-     * @param sourceIconPath Image source path.
+     * @param iconName Path and file name of the source icon.
      * @param outputType Image output type.
      * @param targetPath Destination target path (can be relative).
      * @throws ImageException Thrown in case an error occurred while manipulating an image.
      * @return Full pathname (containing the file extension) of the saved image file.
      */
-    public static String saveIcon(final @NonNull String sourceIconPath, final ImageFileType outputType, final @NonNull String targetPath) throws ImageException
+    public static String saveIcon(final @NonNull String iconName, final ImageFileType outputType, final @NonNull String targetPath) throws ImageException
     {
-        String filename = getFilenameWithoutExtension(sourceIconPath);
+        String filename = getFilenameWithoutExtension(iconName);
 
-        return saveIcon(sourceIconPath, ImageScaleType.IMAGE_SCALE_DEFAULT, outputType, targetPath, filename);
+        return saveIcon(
+                iconName,
+                ImageScaleType.IMAGE_SCALE_DEFAULT,
+                outputType,
+                targetPath,
+                filename);
     }
 
     /**
      * Saves an icon image.
-     * @param sourceIconPath Image path (complete).
+     * @param iconName Path and file name of the source icon.
      * @param scaleType Image scale.
      * @param outputType Image output type.
      * @param targetPath Destination target path (can be relative).
      * @throws ImageException Thrown in case an error occurred while manipulating an image.
      * @return Full pathname (containing the file extension) of the saved image file.
      */
-    public static String saveIcon(final @NonNull String sourceIconPath, final ImageScaleType scaleType, final ImageFileType outputType, final @NonNull String targetPath) throws ImageException
+    public static String saveIcon(final @NonNull String iconName, final ImageScaleType scaleType, final ImageFileType outputType, final @NonNull String targetPath) throws ImageException
     {
-        String filename = getFilenameWithoutExtension(sourceIconPath);
+        String filename = getFilenameWithoutExtension(iconName);
 
-        return saveIcon(sourceIconPath, scaleType, outputType, targetPath, filename);
+        return saveIcon(
+                iconName,
+                scaleType,
+                outputType,
+                targetPath,
+                filename);
     }
 
     /**
      * Saves an icon image.
-     * @param sourceIconPath Image path (complete).
+     * @param iconName Path and file name of the source icon.
      * @param scaleType Image scale.
      * @param outputType Image output type.
      * @param targetPath Destination target path (can be relative).
@@ -93,12 +125,12 @@ public final class ImageHelper
      * @throws ImageException Thrown in case an error occurred while manipulating an image.
      * @return Full pathname (containing the file extension) of the saved image file.
      */
-    public static String saveIcon(final @NonNull String sourceIconPath, final ImageScaleType scaleType, final ImageFileType outputType, final @NonNull String targetPath, final @NonNull String targetName) throws ImageException
+    public static String saveIcon(final @NonNull String iconName, final ImageScaleType scaleType, final ImageFileType outputType, final @NonNull String targetPath, final @NonNull String targetName) throws ImageException
     {
         boolean result;
         BufferedImage converted = null;
 
-        BufferedImage icon = getIcon(sourceIconPath, scaleType);
+        BufferedImage icon = getIcon(iconName, scaleType);
 
         try
         {
@@ -119,13 +151,13 @@ public final class ImageHelper
                 result = ImageIO.write(converted, outputType.name(), new File(targetPath, targetName + outputType.getExtension()));
                 if (!result)
                 {
-                    throw new ImageException(String.format("Cannot generate image output: '%s', from source: '%s', in format: '%s'", targetPath, sourceIconPath, outputType));
+                    throw new ImageException(String.format("Cannot generate image output: '%s', from source: '%s', in format: '%s'", targetPath, iconName, outputType));
                 }
             }
         }
         catch (IOException fe)
         {
-            throw new ImageException(String.format("Cannot generate image output: '%s', from source: '%s', in format: '%s'", targetPath, sourceIconPath, outputType));
+            throw new ImageException(String.format("Cannot generate image output: '%s', from source: '%s', in format: '%s'", targetPath, iconName, outputType));
         }
 
         return targetPath + File.separator + targetName + outputType.getExtension();
@@ -133,23 +165,23 @@ public final class ImageHelper
 
     /**
      * Retrieves an icon.
-     * @param sourcePath Icon source path and filename.
+     * @param iconName Path and file name of the source icon.
      * @return {@link BufferedImage} containing the icon image.
      * @throws ImageException Thrown in case an error occurred while manipulating an image.
      */
-    public static BufferedImage getIcon(final @NonNull String sourcePath) throws ImageException
+    public static BufferedImage getIcon(final @NonNull String iconName) throws ImageException
     {
-        return getIcon(sourcePath, ImageScaleType.IMAGE_SCALE_DEFAULT);
+        return getIcon(iconName, ImageScaleType.IMAGE_SCALE_DEFAULT);
     }
 
     /**
      * Retrieves an icon.
-     * @param sourcePath Icon source path and filename.
+     * @param iconName Path and file name of the source icon.
      * @param scaleType Icon scale type.
      * @return {@link BufferedImage} containing the icon image.
      * @throws ImageException Thrown in case an error occurred while manipulating an image.
      */
-    public static BufferedImage getIcon(final String sourcePath, final ImageScaleType scaleType) throws ImageException
+    public static BufferedImage getIcon(final String iconName, final ImageScaleType scaleType) throws ImageException
     {
         File file;
         BufferedImage icon;
@@ -160,7 +192,7 @@ public final class ImageHelper
 
         try
         {
-            file = FileHelper.getFile(sourcePath, ImageHelper.class);
+            file = FileHelper.getFile(iconName, ImageHelper.class);
             icon = ImageIO.read(file);
 
             switch (scaleType)
@@ -210,11 +242,11 @@ public final class ImageHelper
         }
         catch (IOException ioe)
         {
-            throw new ImageException(String.format("Cannot convert icon image: '%s' due to: '%s'", sourcePath, ioe.getMessage()));
+            throw new ImageException(String.format("Cannot convert icon image: '%s' due to: '%s'", iconName, ioe.getMessage()));
         }
         catch (NullPointerException | FileException e)
         {
-            throw new ImageException(String.format("Cannot find icon image: '%s'", sourcePath));
+            throw new ImageException(String.format("Cannot find icon image: '%s'", iconName));
         }
 
         return output;
