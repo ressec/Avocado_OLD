@@ -97,22 +97,29 @@
             <url>https://maven.pkg.github.com/ressec/avocado</url>
         </repository>
 
-        <!--        <repository>-->
-<!--            &lt;!&ndash; This repository id should match a server entry in the servers section of the settings.xml file. &ndash;&gt;-->
-<!--            <id>gitlab-public</id>-->
-<!--            <url>https://gitlab.com/api/v4/projects/22245088/packages/maven</url>-->
-<!--        </repository>-->
-
-<!--        <snapshotRepository>-->
-<!--            &lt;!&ndash; This repository id should match a server entry in the servers section of the settings.xml file. &ndash;&gt;-->
-<!--            <id>gitlab-public</id>-->
-<!--            <url>https://gitlab.com/api/v4/projects/22245088/packages/maven</url>-->
-<!--        </snapshotRepository>-->
-
     </distributionManagement>
 
     <repositories>
 
+        <!-- Main Maven repository -->
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
+        <!-- Github Maven repository -->
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/ressec/*</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+        <!-- Gitlab Maven repository -->
         <repository>
             <id>gitlab-public</id>
             <url>https://gitlab.com/api/v4/projects/22245088/packages/maven</url>

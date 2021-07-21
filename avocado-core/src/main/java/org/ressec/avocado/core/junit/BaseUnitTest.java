@@ -14,23 +14,15 @@ package org.ressec.avocado.core.junit;
 import com.github.javafaker.Faker;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
-import org.ressec.avocado.core.exception.checked.FileException;
-import org.ressec.avocado.core.helper.FileHelper;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Random;
-import java.util.UUID;
 
 /**
  * An abstract class for unit testing that provides some additional functionalities.
@@ -50,11 +42,6 @@ public abstract class BaseUnitTest
     protected static Path sharedTempDirectory;
 
     /**
-     * Unit test temporary folder for the run.
-     */
-    protected static String testFolder = System.getProperty("java.io.tmpdir");
-
-    /**
      * System specific file separator character.
      */
     protected static String fileSeparator = System.getProperty("file.separator");
@@ -70,28 +57,30 @@ public abstract class BaseUnitTest
     protected final Faker faker = new Faker();
 
     /**
-     * Creates a new base unit test instance.
+     * Returns the test folder name.
+     * @return Test folder name.
      */
-    protected BaseUnitTest()
+    public final String getTestFolderName()
     {
-        setTestFolder();
+        return sharedTempDirectory.toString();
     }
 
     /**
-     * Sets the test folder.
+     * Returns the test folder path.
+     * @return Test folder path.
      */
-    private static void setTestFolder()
+    public final Path getTestFolderPath()
     {
-        if (!testFolder.endsWith("/"))
-        {
-            testFolder += File.separator + UUID.randomUUID().toString();
-        }
-        else
-        {
-            testFolder += UUID.randomUUID().toString();
-        }
+        return sharedTempDirectory;
+    }
 
-        FileHelper.createFileWithDirs(new File(testFolder));
+    /**
+     * Returns the test folder file.
+     * @return Test folder file.
+     */
+    public final File getTestFolderFile()
+    {
+        return sharedTempDirectory.toFile();
     }
 
     /**
@@ -101,48 +90,8 @@ public abstract class BaseUnitTest
      */
     protected static boolean existFile(final @NonNull String filename)
     {
-        if (filename.contains(fileSeparator))
-        {
-            String path = FilenameUtils.getPath(filename);
-
-            if (!normalizeFolderName(path).equals(normalizeFolderName(testFolder)))
-            {
-                return false;
-            }
-        }
-
-        try
-        {
-            if(!FileHelper.getFile(filename).isFile())
-            {
-                return false;
-            }
-        }
-        catch (FileException e)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Normalizes the given folder name by removing (if necessary) the leading and training '/' character.
-     * @param folderName Folder name to normalize.
-     * @return Normalized folder name.
-     */
-    private static String normalizeFolderName(@NonNull String folderName)
-    {
-        if (folderName.startsWith(fileSeparator))
-        {
-            folderName = folderName.substring(1);
-        }
-        if (folderName.endsWith(fileSeparator))
-        {
-            folderName = folderName.substring(0, folderName.length() - 1);
-        }
-
-        return folderName;
+        File file = new File(filename);
+        return file.exists();
     }
 
     /**
@@ -151,15 +100,7 @@ public abstract class BaseUnitTest
     @BeforeAll
     static void setUpBeforeClass()
     {
-        try
-        {
-            Files.createDirectories(Paths.get(testFolder));
-            LOGGER.info(String.format("Test folder set to: [%s]%n", testFolder));
-        }
-        catch (IOException e)
-        {
-            LOGGER.error(e);
-        }
+        LOGGER.info(String.format("Test folder available at: [%s]", sharedTempDirectory.getFileName()));
     }
 
     /**
@@ -168,15 +109,7 @@ public abstract class BaseUnitTest
     @AfterAll
     public static void tearDownAfterClass()
     {
-        try
-        {
-            FileUtils.deleteDirectory(new File(testFolder));
-            LOGGER.info(String.format("Test folder [%s] deleted%n", testFolder));
-        }
-        catch (IOException e)
-        {
-            LOGGER.error(e);
-        }
+        LOGGER.info(String.format("Test folder at: [%s] deleted!", sharedTempDirectory.getFileName()));
     }
 
     /**
