@@ -11,6 +11,7 @@
  */
 package org.ressec.avocado.core.test.image;
 
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,7 @@ import java.awt.image.BufferedImage;
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
+@Log4j2
 final class TestImageHelper extends BaseUnitTest
 {
     /**
@@ -50,8 +52,9 @@ final class TestImageHelper extends BaseUnitTest
         String pathname = ImageHelper.saveIcon(
                 ICON_PATHNAME,
                 ImageFileType.PNG,
-                testFolder);
+                getTestFolderName());
 
+        LOGGER.debug(String.format("File saved at: '%s'", pathname));
         Assertions.assertTrue(existFile(pathname));
     }
 
@@ -63,7 +66,7 @@ final class TestImageHelper extends BaseUnitTest
                 ICON_PATHNAME,
                 ImageScaleType.IMAGE_SCALE_13X13,
                 ImageFileType.PNG,
-                testFolder);
+                getTestFolderName());
 
         Assertions.assertTrue(existFile(pathname));
 
@@ -79,7 +82,7 @@ final class TestImageHelper extends BaseUnitTest
         String pathname = ImageHelper.saveIcon(
                 ICON_PATHNAME,
                 ImageFileType.BMP,
-                testFolder);
+                getTestFolderName());
 
         Assertions.assertTrue(existFile(pathname));
     }
@@ -92,7 +95,7 @@ final class TestImageHelper extends BaseUnitTest
                 ICON_PATHNAME,
                 ImageScaleType.IMAGE_SCALE_32X32,
                 ImageFileType.BMP,
-                testFolder);
+                getTestFolderName());
 
         Assertions.assertTrue(existFile(pathname));
 
@@ -108,7 +111,7 @@ final class TestImageHelper extends BaseUnitTest
         String pathname = ImageHelper.saveIcon(
                 ICON_PATHNAME,
                 ImageFileType.GIF,
-                testFolder);
+                getTestFolderName());
 
         Assertions.assertTrue(existFile(pathname));
     }
@@ -121,7 +124,7 @@ final class TestImageHelper extends BaseUnitTest
                 ICON_PATHNAME,
                 ImageScaleType.IMAGE_SCALE_64X64,
                 ImageFileType.GIF,
-                testFolder);
+                getTestFolderName());
 
         Assertions.assertTrue(existFile(pathname));
 
@@ -137,7 +140,7 @@ final class TestImageHelper extends BaseUnitTest
         String pathname = ImageHelper.saveIcon(
                 ICON_PATHNAME,
                 ImageFileType.JPEG,
-                testFolder);
+                getTestFolderName());
 
         Assertions.assertTrue(existFile(pathname));
     }
@@ -150,7 +153,7 @@ final class TestImageHelper extends BaseUnitTest
                 ICON_PATHNAME,
                 ImageScaleType.IMAGE_SCALE_128X128,
                 ImageFileType.JPEG,
-                testFolder);
+                getTestFolderName());
 
         Assertions.assertTrue(existFile(pathname));
 
@@ -166,7 +169,7 @@ final class TestImageHelper extends BaseUnitTest
         String pathname = ImageHelper.saveIcon(
                 ICON_PATHNAME,
                 ImageFileType.TIFF,
-                testFolder);
+                getTestFolderName());
 
         Assertions.assertTrue(existFile(pathname));
     }
@@ -179,7 +182,7 @@ final class TestImageHelper extends BaseUnitTest
                 ICON_PATHNAME,
                 ImageScaleType.IMAGE_SCALE_256X256,
                 ImageFileType.TIFF,
-                testFolder);
+                getTestFolderName());
 
         Assertions.assertTrue(existFile(pathname));
 
