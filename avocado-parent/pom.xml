@@ -119,6 +119,12 @@
             </snapshots>
         </repository>
 
+        <!-- Gitlab Maven repository -->
+        <repository>
+            <id>gitlab-public</id>
+            <url>https://gitlab.com/api/v4/projects/22245088/packages/maven</url>
+        </repository>
+
     </repositories>
 
     <dependencyManagement>
