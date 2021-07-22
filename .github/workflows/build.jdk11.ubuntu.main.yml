@@ -97,4 +97,4 @@ jobs:
       - name: Deploy to Github Packages with Maven
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: mvn --batch-mode deploy -f avocado-parent/pom.xml
+        run: mvn --batch-mode deploy -f avocado-parent/pom.xml -Pcoverage
